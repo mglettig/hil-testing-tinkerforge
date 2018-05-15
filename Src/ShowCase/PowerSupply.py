@@ -9,8 +9,7 @@ class PowerSupply:
         self.dRelay = BrickletDualRelay(UID,ipcon)
 
     def enable():
-        # TODO
-        #self.dRelay.
+        self.dRelay.set_state(True, True)
 
     def disable():
-        # TODO
+        self.dRelay.set_state(False, False)
