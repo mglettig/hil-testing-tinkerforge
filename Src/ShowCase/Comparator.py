@@ -4,10 +4,10 @@ from tinkerforge.ip_connection import IPConnection
 from tinkerforge.bricklet_analog_in_v3 import BrickletAnalogInV3
 
 class Comparator:
-    threshold = 20
 
-    def __init__(self,ipcon: IPConnection,UID,callback):
+    def __init__(self,ipcon: IPConnection,UID,callback,threshold=20):
         self.callback = callback
+        self.threshold = threshold
         self.analogIn = BrickletAnalogInV3(UID,ipcon)
 
         self.analogIn.register_callback(
