@@ -10,11 +10,12 @@ ipcon.connect(HOST, PORT) # Connect to brickd
 
 UID_ANALOG_IN="F8S"
 
-comparator = Comparator.Comparator(ipcon,UID_ANALOG_IN)
-
-
+def callback(voltage):
+    print("Callback triggered!")
+    
 # 1) Startup behaviour
 # - Setup callback on comparator input
+comparator = Comparator.Comparator(ipcon,UID_ANALOG_IN,callback)
 # - Store timestamp
 # - Enable Power Supply via relay
 # - Store timestamp upon callback trigger

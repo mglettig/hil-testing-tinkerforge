@@ -6,19 +6,26 @@ from tinkerforge.bricklet_analog_in_v3 import BrickletAnalogInV3
 class Comparator:
     threshold = 20
 
-    def __init__(self,ipcon: IPConnection,UID):
-        # TODO
+    def __init__(self,ipcon: IPConnection,UID,callback):
+        self.callback = callback
+        self.analogIn = BrickletAnalogInV3(UID,ipcon)
 
-        analogIn = BrickletAnalogInV3(UID,ipcon)
-        analogIn.register_callback(analogIn.CALLBACK_VOLTAGE, cb_voltage)
+        self.analogIn.register_callback(
+         BrickletAnalogInV3.CALLBACK_VOLTAGE,
+         self.cb_voltage)
 
         # Configure threshold for voltage "greater than threshold"
         # with a debounce period of 0.2s (200ms)
-        analogIn.set_voltage_callback_configuration(200, True,
-        BrickletAnalogInV3.THRESHOLD_OPTION_GREATER,
-        20000, 0)
+        self.analogIn.set_voltage_callback_configuration(200, True,
+         BrickletAnalogInV3.THRESHOLD_OPTION_GREATER,
+         self.threshold*1000, 0)
 
+    def cb_voltage(self,voltage):
+        print("Voltage: " + str(voltage/1000.0) + " V")
 
+        # Disable Callback...
+        self.analogIn.set_voltage_callback_configuration(0, True,
+         BrickletAnalogInV3.THRESHOLD_OPTION_OFF,0,0)
 
-def cb_voltage(voltage):
-    print("Voltage: " + str(voltage/1000.0) + " V")
+        # Trigger listener
+        self.callback(voltage)
