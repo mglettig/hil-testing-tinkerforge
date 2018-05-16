@@ -1,4 +1,5 @@
 import Comparator
+import PowerSupply
 import time
 from tinkerforge.ip_connection import IPConnection
 import asyncio
@@ -22,7 +23,8 @@ def testExecution():
     timeStart = datetime.now()
 
     # - Enable Power Supply via relay
-    powerSupply = PowerSupply.PowerSupply(ipcon,UID_DUAL_RELAY)
+    powerSupply.enable()
+
     # - Store timestamp upon callback trigger
     # - Calculate timestamp difference
     # 10s timeout
@@ -30,6 +32,7 @@ def testExecution():
 
     if event_is_set == False:
         print("Timeout occurred!")
+        powerSupply.disable()
         return False
 
     timeEnd = datetime.now()
@@ -48,18 +51,25 @@ def testExecution():
     #loop.run_until_complete(hello_world())
     #loop.close()
 
+
+
     return True
 
 ipcon = IPConnection()
 ipcon.connect(HOST, PORT) # Connect to brickd
 
 UID_ANALOG_IN="F8S"
-UID_DUAL_RELAY="EaZ"
+UID_DUAL_RELAY="Ebk"
+
+powerSupply = PowerSupply.PowerSupply(ipcon,UID_DUAL_RELAY)
 
 e = threading.Event()
 
 if testExecution():
     print("Test successfull")
 
+input("Press key to exit\n")
+
+powerSupply.disable()
 ipcon.disconnect()
 print("Master script finish...")
