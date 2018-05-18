@@ -1,0 +1,7 @@
+
+HOST: "localhost"
+PORT: 4223
+
+UID_ANALOG_IN: "F8S"
+UID_DUAL_RELAY: "Ebk"
+UID_VOLTAGE_CURRENT: "Aiy"

@@ -1,5 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+###############################################################################
+# PowerSupply.py
+#
+# Contacts: Michael Glettig, Manuel Weber
+# DATE: 16. May 2018														 
+###############################################################################
+
 from tinkerforge.ip_connection import IPConnection
 from tinkerforge.bricklet_dual_relay import BrickletDualRelay
 
